@@ -1,21 +1,14 @@
 function solution(brown, yellow) {
     const sum = brown + yellow;
-    const sqrt = Math.floor(Math.sqrt(sum));
-    console.log(sqrt)
-    console.log(sum)
-    if(sqrt*sqrt === sum) {
-        console.log("true?")
-        return [sqrt,sqrt];
-    }
     let answer = [];
-    for(let i=sqrt; i<=sum; i++) {
-        if(sum%i === 0) {
-            answer[0] = i;
-            answer[1] = sum/i;
-            break;
+    for(let i=3; i<sum; i++) {
+        let w = sum/i;
+        let h = i;
+        if((w-2)*(h-2)===yellow) {
+            answer[0] = w;
+            answer[1] = h;
         }
     }
-    console.log(answer);
     return answer;
 }
 
