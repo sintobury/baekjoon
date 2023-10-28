@@ -7,7 +7,6 @@ function solution(s) {
     let round = s.concat(s);
     for(let j=0; j<s.length; j++) {
         let turn = round.slice(j,s.length+j);
-        console.log(turn)
         let isNotAnswer = false;
         for(let i=0; i<s.length; i++) {
             let now = turn[i];
@@ -18,7 +17,6 @@ function solution(s) {
                stack.push(now);
             } else {
                 let lastwindow = stack.pop();
-                console.log({lastwindow, now})
                 if(lastwindow === "(" && now === ")") {
                     continue;
                 } else if(lastwindow === "{" && now === "}") {
@@ -34,8 +32,6 @@ function solution(s) {
         if(!isNotAnswer) {
             answer++;
         }
-        
-        console.log({answer,stack})
     }
     return answer;
 }
