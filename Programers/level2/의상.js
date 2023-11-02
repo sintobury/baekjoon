@@ -10,13 +10,12 @@ function solution(clothes) {
             kinds++;
         }
     }
-    console.log(clothesObj, kinds)
-    //kinds C  
     let answer = 1;
+    // 옷 종류별로 안입는 경우까지 더해 합산
     for(let kind in clothesObj) {
         answer = answer * (clothesObj[kind] + 1)
     }
-    console.log(answer)
+    // 옷을 아예 안입는 경우는 총합에서 제외
     return answer-1;
 }
 
