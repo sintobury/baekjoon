@@ -1,7 +1,5 @@
 function solution(n, k) {
     const numlist = n.toString(k).split("0").filter((el)=>el!=="");
-    console.log(n.toString(k))
-    console.log(numlist);
     let Prime = [];
     function isPrime(num) {
         if(num === 1) {
@@ -29,7 +27,6 @@ function solution(n, k) {
             answer++;
         }
     }
-    console.log(answer)
     return answer;
 }
 
