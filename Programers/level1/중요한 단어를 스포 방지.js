@@ -4,59 +4,54 @@ function solution(message, spoiler_ranges) {
     //range 기준으로 먼저 스포방지 단어 산출 -> 인덱스에 포함되면 포함되는 단어(일부포함이어도) 전부 
     //등장한 단어는 따로 저장(중요 단어인지 확인용) -> set으로? -> 등장횟수 저장, 1이 아니면 중요단어X, 이후 저장(뒤에 또 나올수도있으니)
     let wordList = message.split(' ');
-    let scope = spoiler_ranges[0];
-    let scopeNumber = 0;
-    let [nextStart,nextEnd] = [0, wordList[0].length-1];
+    //제공하는 변수명기준으로 설명하듯이 쓰는게 낫다
+    // 변수명 연관성있게  
+    let spoiler_range = spoiler_ranges[0];
+    let rangeIndex = 0;
+    let [wordStart,wordEnd] = [0, wordList[0].length-1];
     const revealedWordSet = new Set(); 
     const spoilerSet = new Set();
     const outSet = new Set();
-    let i = 0;
-    let answer = 0;
-    while(i<wordList.length){
-        let word = wordList[i];
-        //console.log(word, scope, [nextStart,nextEnd], spoilerSet, revealedWordSet)
-        if(scope[0] > nextEnd){
+    for(const word of wordList){
+        wordEnd = wordStart + word.length-1;
+        console.log([wordStart, wordEnd], spoiler_range, word)
+        if(spoiler_range[1] < wordStart){
+            revealedWordSet.add(word);
+        }
+
+        if(wordEnd < spoiler_range[0]){
             //방지 범위 앞 -> 패스
             revealedWordSet.add(word);
-            nextStart = nextEnd + 2;
-            i++;
-            if(i === wordList.length){
-                break;
-            }
-            nextEnd = nextStart + wordList[i].length-1;
-        } else if(scope[0] <= nextEnd && scope[1] >= nextStart){
-            //방지 범위 안 -> 처음등장하면 +1
-            if(!spoilerSet.has(word)){
-                spoilerSet.add(word);
-                answer++;
-            }
-            nextStart = nextEnd + 2;
-            i++;
-            if(i === wordList.length){
-                break;
-            }
-            nextEnd = nextStart + wordList[i].length-1;
-        } else if(scope[1] < nextStart){
-            scopeNumber++;
-            if(spoiler_ranges.length-1 >= scopeNumber){
-                scope = spoiler_ranges[scopeNumber];
-            } else {
-                for(let j=i; j<wordList.length; j++){
-                    revealedWordSet.add(wordList[j]);
+        } else if(spoiler_range[0] <= wordEnd && wordStart <= spoiler_range[1]){
+            //방지 범위 안
+            spoilerSet.add(word);
+        } 
+        if(wordEnd + 1 >= spoiler_range[1]){
+            if(rangeIndex < spoiler_ranges.length){
+                for(let i=rangeIndex+1; i<spoiler_ranges.length; i++){
+                    //단어끝에는 공백이 오기때문에 +1로 고려
+                    if(spoiler_ranges[i][1] > wordEnd+1){
+                        spoiler_range = spoiler_ranges[i];
+                        rangeIndex = i ;
+                        break;
+                    }
                 }
-                break;
             }
         }
+        wordStart = wordEnd + 2;
+        console.log(revealedWordSet, spoilerSet)
     }
+
     for(const word of revealedWordSet){
         if(spoilerSet.has(word)){
             outSet.add(word);
         }
     }
-console.log(spoilerSet, revealedWordSet, outSet)
 
-    return answer-outSet.size;
+    return spoilerSet.size - outSet.size;
+}
 
+console.log(solution("word next", [[0, 0], [1, 1], [5, 5]]))
 
     /*
     const spoilerWord = new Set();
@@ -113,7 +108,4 @@ console.log(spoilerSet, revealedWordSet, outSet)
             revealedWordList.add(word);
         } 
     }*/
-    return answer;
-}
 
-console.log(solution("my phone number is 01012345678 and may i have your phone number", [[5, 5], [25, 28], [34, 40], [53, 59]]))
