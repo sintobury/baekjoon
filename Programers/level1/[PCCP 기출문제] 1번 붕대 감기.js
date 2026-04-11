@@ -5,13 +5,15 @@ function solution(bandage, health, attacks) {
     // 모든 공격이 끝난후 남은 체력 리턴 -> 죽은 경우(남은체력이 0이하인경우) -1 리턴
     // 공격받은 시점에 붕대감기가 끊기고 다음초부터 회복다시 시작, 연속성공이 초기화됨
     let recentHealth = health;
+    // health는 이미 변수니까 최대치를 상수로 만들고 이걸 변수로 쓰는게 더 직관적
     let healedTime = 0;
     let time = attacks[0][0]-1;
+    let [castingTime, hps, additionalHeal] = bandage;
     for(const attack of attacks){
-        let [now, damage] = [attack[0], attack[1]];
+        let [now, damage] = attack;
         healedTime = now-time-1;
-        let fullyCastedCount = Math.floor(healedTime/bandage[0]);
-        recentHealth = Math.min(recentHealth + healedTime*bandage[1] + fullyCastedCount*bandage[2], health)
+        let fullyCastedCount = Math.floor(healedTime/castingTime);
+        recentHealth = Math.min(recentHealth + healedTime*hps + fullyCastedCount*additionalHeal, health)
         //console.log(now, recentHealth) 
         recentHealth -= damage;
         //console.log(now, recentHealth)

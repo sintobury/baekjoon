@@ -1,22 +1,24 @@
 function solution(today, terms, privacies) {
-    const answer = [];
-    const todayarr = today.split(".");
-    const todaynum = Number(todayarr[0])*12*28 + (Number(todayarr[1]))*28 + Number(todayarr[2]);
-    // console.log("todaynum",todaynum)
-    const termObj = {};
-    for(let i=0; i<terms.length; i++) {
-        const term = terms[i].split(" ");
-        termObj[term[0]] = Number(term[1]);
+    const transfer = (date) => {
+        const [year, month, day] = date.split('.').map(Number);
+        return day + month*28 + year*12*28
     }
-    console.log(termObj)
-    for(let i=0; i<privacies.length; i++) {
-        const privacy = privacies[i].split(" ");
-        const privacyDay = privacy[0].split(".");
-        const privacyNum = Number(privacyDay[0])*12*28 + (Number(privacyDay[1]))*28 + Number(privacyDay[2]);
-        const expirelength = termObj[privacy[1]]*28
-        const expiredNum = privacyNum + expirelength
-        // console.log({privacyNum, expirelength, expiredNum, todaynum})
-        if(expiredNum <= todaynum) {
+    
+    today = transfer(today);
+
+    const termMap = new Map();
+    for(const term of terms){
+        const [termName, validityPeriod] = term.split(' ');
+        termMap.set(termName, Number(validityPeriod));
+    }
+    
+    const answer = [];
+    for(let i=0; i<privacies.length; i++){
+        let [collectedDate, termName] = privacies[i].split(' ');
+        collectedDate = transfer(collectedDate);
+        let endDate = collectedDate + termMap.get(termName)*28;
+        
+        if(endDate <= today){
             answer.push(i+1);
         }
     }

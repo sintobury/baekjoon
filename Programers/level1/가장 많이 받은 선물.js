@@ -18,7 +18,7 @@ function solution(friends, gifts) {
     //선물 주고받기 과정 진행
     for(const gift of gifts){
         let split = gift.split(' ');
-        const [sender, receiver] = [split[0], split[1]];
+        const [sender, receiver] = split;
         friendGraph[sender][receiver] += 1;
         friendGraph[receiver][sender] -= 1;
         friendGraph[sender]["giftDegree"] += 1;
@@ -33,8 +33,10 @@ function solution(friends, gifts) {
 
     //다음달 누가 가장 많이 받을지 계산
     let nextMonthGiftList = [];
+    //여기는 i써서 순회하는게 훨씬 비효율감소
     for(const person of friends){
         let graph = friendGraph[person];
+        console.log(graph)
         let nextMonthGift = 0;
         for(const friend in graph){
             if(friend !== "giftDegree"){
