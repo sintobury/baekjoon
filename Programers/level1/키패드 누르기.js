@@ -10,8 +10,7 @@ function solution(numbers, hand) {
     numberMap.set(0,{x:1, y:3});
     numberMap.set('#',{x:2, y:3});
     
-    let RNow = '*'; 
-    let LNow = '#';
+    let [RNow, LNow] = ['*','#']; 
     let answer = ''
     for(const number of numbers){
         //console.log(LNow, RNow, number, answer)
