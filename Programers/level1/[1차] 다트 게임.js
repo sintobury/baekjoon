@@ -5,6 +5,7 @@ function solution(dartResult) {
     for(let i=0; i<dartResult.length; i++){
         let str = dartResult[i];
         if(bonus.has(str)){
+            //slice대신 정규식활용
             let score = Number(dartResult.slice(dartStart,i));
             if(str === 'D'){
                 score = Math.pow(score,2);
@@ -31,6 +32,7 @@ function solution(dartResult) {
     }
     
     let answer = 0;
+    //reduce 
     scoreList.forEach((score) => answer += score);
     return answer;
 }

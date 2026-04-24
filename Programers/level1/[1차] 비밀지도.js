@@ -12,7 +12,8 @@ function solution(n, arr1, arr2) {
             }
         }
     }
-    answer.forEach((el,idx,arr) => arr[idx] = el.join(''));
+    //answer.forEach((el,idx,arr) => arr[idx] = el.join(''));
+    answer = answer.map((el) => el.join(''));
     return answer;
 }
 
