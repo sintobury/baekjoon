@@ -1,4 +1,6 @@
 function solution(info, n, m) {
+    // 최솟값에 배열사용 => 높은확률로 dp, 단계별 누적 저장 => dp, dp면 처리해야 할 값부터 생각, 저장해야할 값 생각, 구해야하는 값을 저장하는 느낌
+    //dfs -> 백트래킹 문제, bfs -> 미로찾기류, 극단적 케이스는 그리디 대신 dp -> 그리디는 극단적 케이스가 입력값으로 안들어옴
     let maxB = 0;
     info.forEach((el) => maxB += el[1]);
     let total = info.length;

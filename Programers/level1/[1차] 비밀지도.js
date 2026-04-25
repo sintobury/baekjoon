@@ -3,6 +3,8 @@ function solution(n, arr1, arr2) {
     const solved2 = arr2.map((el) => el.toString(2).padStart(n,'0'));
     let answer = new Array(n).fill(0).map(() => new Array(n).fill('#'));
     
+    // |연산을 활용하면 훨씬 짧
+
     for(let i=0; i<n; i++){
         for(let j=0; j<n; j++){
             if(solved1[i][j] === '0' && solved2[i][j] === '0'){
